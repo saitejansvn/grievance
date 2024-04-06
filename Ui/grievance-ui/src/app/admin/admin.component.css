@@ -1,0 +1,7 @@
+.a {
+    height: 100vh;
+  background-image: url("src\assets\images\yaddadri1.jpg");
+  background-repeat: no-repeat, repeat;
+  background-position: center; /* Center the image */
+  background-size: cover; /* Resize the background image to cover the entire container */
+}

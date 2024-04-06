@@ -1,0 +1,93 @@
+<body>
+    <div class="container">
+        <div class="card">
+            <h4 class="card-header">Register</h4>
+            <div class="card-body">
+                <form name="form"
+                 (ngSubmit)="registerForm.form.valid && 
+                  !isUserNameExists && register() "
+                   #registerForm="ngForm" novalidate>
+                    <div class="form-group">
+                        <label for="firstName">First Name</label>
+                        <input type="text" name="firstName" 
+                        [(ngModel)]="userDetails.firstName" #firstName="ngModel"
+                        [ngClass]="{ 'is-invalid': registerForm.submitted && firstName.invalid }"   
+                        required class="form-control" />
+                        <div *ngIf="registerForm.submitted && firstName.invalid" class="invalid-feedback">
+                            <div *ngIf="firstName.errors.required">FirstName is required</div>    
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" name="lastName"
+                         [(ngModel)]="userDetails.lastName" #lastname="ngModel"
+                            required class="form-control"
+                            [ngClass]="{ 'is-invalid': registerForm.submitted && lastname.invalid }"   
+                            />
+                            <div *ngIf="registerForm.submitted && lastname.invalid" class="invalid-feedback">
+                                <div *ngIf="lastname.errors.required">LastName is required</div>    
+                            </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="mobileNumber">Mobile Number</label>
+                        <input type="text" name="MobileNumber" [(ngModel)]="userDetails.mobileNumber"
+                            #mobileNumber="ngModel" required minlength="10" class="form-control"
+                            [ngClass]="{ 'is-invalid': registerForm.submitted && mobileNumber.invalid }"    />
+                            <div *ngIf="registerForm.submitted && mobileNumber.invalid" class="invalid-feedback">
+                                <div *ngIf="mobileNumber.errors.required">MobileNumber is required</div>    
+                            </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="role">Role</label>
+                        <ng-select [items]="Roles" class="form-control"
+                         appendTo="body" bindLabel="label"
+                           name="role" #role="ngModel"
+                            bindValue="value" placeholder="Select role"
+                             [(ngModel)]="userDetails.role"
+                            required 
+                            [ngClass]="{'is-invalid': registerForm.submitted && role.invalid }"
+                            >
+                        </ng-select>
+                        <div *ngIf="registerForm.submitted && role.invalid" class="invalid-feedback">
+                            <div *ngIf="role.errors.required">Role is required</div>    
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="text" name="email" [(ngModel)]="userDetails.userName" #userName="ngModel" required
+                            required (change)="checkUserNameExists(userDetails.userName)"
+                            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                            [ngClass]="{'is-invalid': registerForm.submitted && userName.invalid }"
+                            class="form-control" />
+                            <div *ngIf="registerForm.submitted && userName.invalid" class="invalid-feedback">
+                                <div *ngIf="userName.errors.required">Email is required</div> 
+                                <div *ngIf="userName.errors.pattern && userName.touched">Enter Vaild Email Address</div>   
+                            </div>
+<div *ngIf="isUserNameExists"  style="color:red"> 
+Email Already Exists
+
+</div>
+
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" name="password"
+                         [(ngModel)]="userDetails.password" #password="ngModel"
+                            required class="form-control"
+                            [ngClass]="{'is-invalid': registerForm.submitted && password.invalid }" />
+
+                            <div *ngIf="registerForm.submitted && password.invalid" class="invalid-feedback">
+                                <div *ngIf="password.errors.required">Password is required</div>    
+                            </div>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" style="margin: 6px;" class="btn btn-primary">
+                            Register
+                        </button>
+                        <a routerLink="../login" class="btn btn-link">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>

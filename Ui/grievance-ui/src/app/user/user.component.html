@@ -1,0 +1,175 @@
+<nav class="navbar navbar-expand-md  bg-info">
+    <a class="navbar-brand" href="#">Navbar</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Home <span class="sr-only"></span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Features</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">About Us</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Contact Us</a>
+            </li>
+        </ul>
+        &nbsp;
+        <ul class="navbar-nav ml-auto ">
+            <li class="nav-item">
+
+                <span class="nav-link">Welcome {{userDetails.userName}}</span>
+            </li>
+        </ul>
+    </div>
+    <a class="btn navbar-btn  btn-danger navbar-right" role="button" (click)="loginService.logout()">Logout</a>
+</nav>
+<div class="card">
+    <div class="card-header">Grievance Homepage</div>
+    <div class="card-body">
+        <h5 class="card-title">Grievance Submission Form</h5>
+        <div class="register-form">
+            <form name="form" (ngSubmit)="grievanceForm.form.valid && submitGrievance() " #grievanceForm="ngForm"
+                novalidate>
+                <div class="form-group">
+                    <label>Grievance Type </label>
+                    <ng-select appendTo="body" bindLabel="label" name="grievanceType" #grievanceType="ngModel"
+                        bindValue="value" placeholder="Select Grievance Type" [items]="grievanceTypes"
+                        [(ngModel)]="grievanceModel.grievanceType" required
+                        [clearable]="true" (clear)="onGrievanceTypeClear()"
+                        [ngClass]="{'is-invalid': grievanceForm.submitted && grievanceType.invalid }">
+                    </ng-select>
+                    <div *ngIf="grievanceForm.submitted && grievanceType.invalid" class="invalid-feedback">
+                        <div *ngIf="grievanceType.errors.required">Grievance Type is Required</div>
+                    </div>
+                </div>
+                <ng-container *ngIf="grievanceModel.grievanceType!==undefined &&grievanceModel.grievanceType!==null">
+                    <div class="form-group" *ngIf="grievanceModel.grievanceType==='Health'">
+                        <label>Grievance Sub Type</label>
+                        <ng-select appendTo="body" bindLabel="label" name="grievanceSubType" #grievanceSubType="ngModel"
+                            bindValue="value" placeholder="Select Grievance Sub Type" [items]="healthGrievanceSubTypes"
+                            [(ngModel)]="grievanceModel.grievanceSubType"
+                            (clear)="onGrievanceTypeClear()"
+                            required
+                            [ngClass]="{'is-invalid': grievanceForm.submitted && grievanceSubType.invalid }">
+                        </ng-select>
+                        <div *ngIf="grievanceForm.submitted && grievanceSubType.invalid" class="invalid-feedback">
+                            <div *ngIf="grievanceSubType.errors.required">Grievance Sub Type is Required</div>
+                        </div>
+                    </div>
+                    <div class="form-group" *ngIf="grievanceModel.grievanceType==='Clean And Green'">
+                        <label>Grievance Sub Type</label>
+                        <ng-select appendTo="body" bindLabel="label" name="grievanceSubType" #grievanceSubType="ngModel"
+                            bindValue="value" placeholder="Select Grievance Sub Type" [items]="cleanAndGreenSubTypes"
+                            [(ngModel)]="grievanceModel.grievanceSubType" required
+                            (clear)="onGrievanceTypeClear()"
+                            [ngClass]="{'is-invalid': grievanceForm.submitted && grievanceSubType.invalid }">
+                        </ng-select>
+                        <div *ngIf="grievanceForm.submitted && grievanceSubType.invalid" class="invalid-feedback">
+                            <div *ngIf="grievanceSubType.errors.required">Grievance Sub Type is Required</div>
+                        </div>
+                    </div>
+                    <div class="form-group" *ngIf="grievanceModel.grievanceType==='Lockers'">
+                        <label>Grievance Sub Type</label>
+                        <ng-select appendTo="body" bindLabel="label" name="grievanceSubType" #grievanceSubType="ngModel"
+                            bindValue="value" placeholder="Select Grievance Sub Type" [items]="lockersSubTypes"
+                            [(ngModel)]="grievanceModel.grievanceSubType" required
+                            (clear)="onGrievanceTypeClear()"
+                            [ngClass]="{'is-invalid': grievanceForm.submitted && grievanceSubType.invalid }">
+                        </ng-select>
+                        <div *ngIf="grievanceForm.submitted && grievanceSubType.invalid" class="invalid-feedback">
+                            <div *ngIf="grievanceSubType.errors.required">Grievance Sub Type is Required</div>
+                        </div>
+                    </div>
+                    <div class="form-group" *ngIf="grievanceModel.grievanceType==='Tickets'">
+                        <label>Grievance Sub Type</label>
+                        <ng-select appendTo="body" bindLabel="label" name="grievanceSubType" #grievanceSubType="ngModel"
+                            bindValue="value" placeholder="Select Grievance Sub Type" [items]="tickets"
+                            [(ngModel)]="grievanceModel.grievanceSubType" required
+                            (clear)="onGrievanceTypeClear()"
+                            [ngClass]="{'is-invalid': grievanceForm.submitted && grievanceSubType.invalid }">
+                        </ng-select>
+                        <div *ngIf="grievanceForm.submitted && grievanceSubType.invalid" class="invalid-feedback">
+                            <div *ngIf="grievanceSubType.errors.required">Grievance Sub Type is Required</div>
+                        </div>
+                    </div>      
+                </ng-container>
+                <!---First Aid Health Related-->
+                <ng-container *ngIf="grievanceModel.grievanceSubType!==undefined &&
+                 grievanceModel.grievanceSubType!==null && grievanceModel.grievanceSubType==='First Aid' ">
+                    <div class="form-group">
+                        <label>Queue Number</label>
+                        <input type="text" name="queueNumber" [(ngModel)]="grievanceModel.healthModel.queueNumber"
+                            #queueNumber="ngModel" required  class="form-control"
+                            [ngClass]="{ 'is-invalid': grievanceForm.submitted && queueNumber.invalid }" />
+                        <div *ngIf="grievanceForm.submitted && queueNumber.invalid" class="invalid-feedback">
+                            <div *ngIf="queueNumber.errors.required">Queue Number is required</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Section Number</label>
+                        <input type="text" name="sectionNumber" [(ngModel)]="grievanceModel.healthModel.sectionNumber"
+                            #sectionNumber="ngModel" required  class="form-control"
+                            [ngClass]="{ 'is-invalid': grievanceForm.submitted && sectionNumber.invalid }" />
+                        <div *ngIf="grievanceForm.submitted && sectionNumber.invalid" class="invalid-feedback">
+                            <div *ngIf="sectionNumber.errors.required">Section Number is required</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Gate Number</label>
+                        <input type="text" name="gateNumber" [(ngModel)]="grievanceModel.healthModel.gateNumber"
+                            #gateNumber="ngModel" required  class="form-control"
+                            [ngClass]="{ 'is-invalid': grievanceForm.submitted && gateNumber.invalid }" />
+                        <div *ngIf="grievanceForm.submitted && gateNumber.invalid" class="invalid-feedback">
+                            <div *ngIf="gateNumber.errors.required">Gate Number is required</div>
+                        </div>
+                    </div>
+                </ng-container>
+                <!---Sanitanry -->
+                <ng-container *ngIf="grievanceModel.grievanceSubType==='Sanitary'">
+                    <div class="form-group">
+                        <label>RestRoom Number</label>
+                        <input type="text" name="restRoomNumber"
+                            [(ngModel)]="grievanceModel.cleanAndGreenModel.restRoomNumber" #restRoomNumber="ngModel"
+                            required  class="form-control"
+                            [ngClass]="{ 'is-invalid': grievanceForm.submitted && restRoomNumber.invalid }" />
+                        <div *ngIf="grievanceForm.submitted && restRoomNumber.invalid" class="invalid-feedback">
+                            <div *ngIf="restRoomNumber.errors.required">RestRoom Number is required</div>
+                        </div>
+                    </div>
+                </ng-container>
+                <!---description-->
+                <div class="form-group" *ngIf="grievanceModel.grievanceType!==null && grievanceModel.grievanceSubType!==undefined &&
+                  grievanceModel.grievanceSubType!==null && grievanceModel.grievanceSubType!=='Emergency' ">
+                    <label>Complaint Description</label>
+                    <textarea name="complaintDescription"
+                        [(ngModel)]="grievanceModel.complaintDescription"
+                        #complaintDescription="ngModel" required class="form-control"
+                         [ngClass]="{ 'is-invalid': grievanceForm.submitted && complaintDescription.invalid }">
+                    </textarea>
+                    <div *ngIf="grievanceForm.submitted && complaintDescription.invalid" class="invalid-feedback">
+                        <div *ngIf="complaintDescription.errors.required">Complaint Description is required</div>
+                    </div>
+                </div>
+         <br>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    &nbsp; <button type="button" class="btn btn-warning float-right" (click)="resetForm()">
+                        Reset
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<footer class="bg-light text-center text-lg-start">
+    <!-- Copyright -->
+    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+        © 2023 Copyright: Teja Solutions Pvt Ltd..
+    </div>
+    <!-- Copyright -->
+</footer>
